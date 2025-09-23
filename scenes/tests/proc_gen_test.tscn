@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://raebhi1dy0s3"]
+
+[ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_p2xt4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_kkc5m"]
+
+[node name="ProcGenTest" type="Node3D"]
+script = ExtResource("1_p2xt4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_kkc5m")
