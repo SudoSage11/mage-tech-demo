@@ -7,7 +7,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${env:GODOT4}",
-            "args": [],
+            "args": [
+                "--disable-vsync"
+            ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
         }
