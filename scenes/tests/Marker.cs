@@ -1,18 +1,19 @@
 using Godot;
 using System;
 
+[Tool]
 public partial class Marker : Sprite3D {
-	[Export(PropertyHint.Range, "0,1")]
+	[Export(PropertyHint.Range, "0,10")]
 	public float Weight {
 		get {
 			return weight;
 		}
 		set {
 			weight = value;
-			Modulate = new Color(weight / 10f, weight / 10f, weight / 10f);
+			Modulate = new Color(1 - (weight / 5), 1 - (weight / 5), 1 - (weight / 5));
 		}
 	}
-	private float weight;
+	private float weight = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {

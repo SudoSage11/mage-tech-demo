@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://raebhi1dy0s3"]
+[gd_scene load_steps=6 format=3 uid="uid://raebhi1dy0s3"]
 
 [ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_p2xt4"]
 
@@ -9,10 +9,16 @@ content_margin_right = 8.0
 content_margin_bottom = 8.0
 bg_color = Color(0.10747974, 0.10747974, 0.10747967, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2xt4"]
+shading_mode = 2
+albedo_color = Color(0.8995496, 0.22065836, 0.44701433, 1)
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_p2xt4"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_y7b4y"]
+
 [node name="ProcGenTest" type="Node3D"]
 script = ExtResource("1_p2xt4")
-
-[node name="Markers" type="Node3D" parent="."]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -49,4 +55,16 @@ text = "FPS:"
 
 [node name="FpsValue" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "450"
+text = "10"
+
+[node name="Markers" type="Node3D" parent="."]
+
+[node name="ImmediateMeshInstance" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_p2xt4")
+mesh = SubResource("ImmediateMesh_p2xt4")
+
+[node name="ArrayMeshInstance" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_y7b4y")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.492868, 0.5611597, -0.66496694, -0.13393703, 0.7061996, 0.6952287, 0.8597336, 0.4317197, -0.27290323, -7.2618594, 6.1730046, -7.132047)
