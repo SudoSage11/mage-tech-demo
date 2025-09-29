@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://raebhi1dy0s3"]
 
 [ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_p2xt4"]
-[ext_resource type="Theme" path="res://assets/editor_theme.res" id="2_34uec"]
-[ext_resource type="Material" uid="uid://bjtfpeb4c7yqe" path="res://assets/mesh_shader_material.tres" id="2_y7b4y"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/editor_theme.res" id="2_itsy3"]
+[ext_resource type="Material" uid="uid://bjtfpeb4c7yqe" path="res://assets/materials/mesh_shader_material.tres" id="2_y7b4y"]
 [ext_resource type="Script" uid="uid://cfu8xc4ot34c7" path="res://scenes/tests/DebugCamera.cs" id="4_itsy3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2xt4"]
@@ -29,7 +29,7 @@ script = ExtResource("1_p2xt4")
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-theme = ExtResource("2_34uec")
+theme = ExtResource("2_itsy3")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -76,11 +76,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.7510433)
 mesh = SubResource("ArrayMesh_y7b4y")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.033312213, -0.6571606, -0.7530142, 0.39689115, -0.70017606, 0.59349054, -0.917261, -0.27909416, 0.28414562, -22.315308, 6.060432, 11.142668)
+transform = Transform3D(-0.033312213, -0.6571606, -0.7530142, 0.39689115, -0.70017606, 0.59349054, -0.917261, -0.2790942, 0.28414565, -22.315308, 16.170397, -1.9037075)
 light_energy = 2.155
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.337355)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6379156)
 mesh = SubResource("SphereMesh_34uec")
 
 [node name="DebugCamera" type="Camera3D" parent="."]

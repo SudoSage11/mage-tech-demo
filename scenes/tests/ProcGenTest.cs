@@ -6,10 +6,10 @@ using System.Diagnostics;
 
 public partial class ProcGenTest : Node3D {
 	private PackedScene pkdMarker = ResourceLoader.Load<PackedScene>("res://scenes/tests/marker.tscn");
-	private NoiseTexture3D noiseTex = ResourceLoader.Load<NoiseTexture3D>("res://assets/noise_3d.tres");
-	private Material lineMaterial = ResourceLoader.Load<Material>("res://assets/line_material.tres");
-	private Material meshMaterial = ResourceLoader.Load<Material>("res://assets/mesh_material.tres");
-	private ShaderMaterial meshShaderMaterial = ResourceLoader.Load<ShaderMaterial>("res://assets/mesh_shader_material.tres");
+	private NoiseTexture3D noiseTex = ResourceLoader.Load<NoiseTexture3D>("res://assets/textures/noise_3d.tres");
+	private Material lineMaterial = ResourceLoader.Load<Material>("res://assets/materials/line_material.tres");
+	private Material meshMaterial = ResourceLoader.Load<Material>("res://assets/materials/mesh_material.tres");
+	private ShaderMaterial meshShaderMaterial = ResourceLoader.Load<ShaderMaterial>("res://assets/materials/mesh_shader_material.tres");
 
 	private float frequency = 0.5f;
 	/// <summary>
