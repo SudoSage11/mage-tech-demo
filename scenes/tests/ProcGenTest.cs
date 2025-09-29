@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-[Tool]
 public partial class ProcGenTest : Node3D {
 	private PackedScene pkdMarker = ResourceLoader.Load<PackedScene>("res://scenes/tests/marker.tscn");
 	private NoiseTexture3D noiseTex = ResourceLoader.Load<NoiseTexture3D>("res://assets/noise_3d.tres");
@@ -192,8 +191,7 @@ public partial class ProcGenTest : Node3D {
 
 				if (markers.TryGetValue(GetVectorHash(offsetPos), out Marker offsetMarker)) {
 					cubeWeights.Add(offsetMarker.Weight);
-				}
-				else {
+				} else {
 					cubeWeights.Add(-1f);
 				}
 			}
@@ -251,6 +249,10 @@ public partial class ProcGenTest : Node3D {
 		// lineMeshInstance.Mesh = lineMesh;
 		// lineMeshInstance.MaterialOverride = lineMaterial;
 		// AddChild(lineMeshInstance);
+	}
+
+	private void OnSpawnPressed() {
+		GD.Print("Pressed");
 	}
 
 	/// <summary>

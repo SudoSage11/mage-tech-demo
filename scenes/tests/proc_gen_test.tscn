@@ -1,7 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://raebhi1dy0s3"]
 
 [ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_p2xt4"]
+[ext_resource type="Theme" path="res://assets/editor_theme.res" id="2_34uec"]
 [ext_resource type="Material" uid="uid://bjtfpeb4c7yqe" path="res://assets/mesh_shader_material.tres" id="2_y7b4y"]
+[ext_resource type="Script" uid="uid://cfu8xc4ot34c7" path="res://scenes/tests/DebugCamera.cs" id="4_itsy3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2xt4"]
 content_margin_left = 8.0
@@ -18,26 +20,16 @@ albedo_color = Color(0.8995496, 0.22065836, 0.44701433, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_y7b4y"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_y7b4y"]
-material = ExtResource("2_y7b4y")
-radius = 4.0
-height = 8.0
-
 [sub_resource type="SphereMesh" id="SphereMesh_34uec"]
 material = ExtResource("2_y7b4y")
-
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_y7b4y"]
 
 [node name="ProcGenTest" type="Node3D"]
 script = ExtResource("1_p2xt4")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+theme = ExtResource("2_34uec")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -68,6 +60,10 @@ text = "FPS:"
 layout_mode = 2
 text = "10"
 
+[node name="Button" type="Button" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spawn"
+
 [node name="Markers" type="Node3D" parent="."]
 
 [node name="ImmediateMeshInstance" type="MeshInstance3D" parent="."]
@@ -83,15 +79,13 @@ mesh = SubResource("ArrayMesh_y7b4y")
 transform = Transform3D(-0.033312213, -0.6571606, -0.7530142, 0.39689115, -0.70017606, 0.59349054, -0.917261, -0.27909416, 0.28414562, -22.315308, 6.060432, 11.142668)
 light_energy = 2.155
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000310421, 0.83949506, 15.766262)
-mesh = SubResource("SphereMesh_y7b4y")
-
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 26.23849)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.337355)
 mesh = SubResource("SphereMesh_34uec")
 
-[node name="@MeshInstance3D@115767" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000310421, 0.87540686, 1.1777356)
-material_override = ExtResource("2_y7b4y")
-mesh = SubResource("ImmediateMesh_y7b4y")
+[node name="DebugCamera" type="Camera3D" parent="."]
+transform = Transform3D(-0.40025312, 0.31980777, -0.85879004, 0, 0.9371298, 0.34898093, 0.9164046, 0.13968073, -0.3750891, -13.053107, 5.269638, 2.1729875)
+script = ExtResource("4_itsy3")
+controllerSensitivity = 0.03
+
+[connection signal="pressed" from="Control/MarginContainer/PanelContainer/VBoxContainer/Button" to="." method="OnSpawnPressed"]

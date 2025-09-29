@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-[Tool]
 public partial class Marker : Sprite3D {
 	[Export(PropertyHint.Range, "0,10")]
 	public float Weight {
