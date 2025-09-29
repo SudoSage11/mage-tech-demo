@@ -10,6 +10,7 @@ public partial class ProcGenTest : Node3D {
 	private NoiseTexture3D noiseTex = ResourceLoader.Load<NoiseTexture3D>("res://assets/noise_3d.tres");
 	private Material lineMaterial = ResourceLoader.Load<Material>("res://assets/line_material.tres");
 	private Material meshMaterial = ResourceLoader.Load<Material>("res://assets/mesh_material.tres");
+	private ShaderMaterial meshShaderMaterial = ResourceLoader.Load<ShaderMaterial>("res://assets/mesh_shader_material.tres");
 
 	private float frequency = 0.5f;
 	/// <summary>
@@ -242,8 +243,9 @@ public partial class ProcGenTest : Node3D {
 
 		MeshInstance3D meshInstance = new();
 		meshInstance.Mesh = triMesh;
-		meshInstance.MaterialOverride = meshMaterial;
+		meshInstance.MaterialOverride = meshShaderMaterial;
 		AddChild(meshInstance);
+		meshInstance.Owner = GetTree().EditedSceneRoot;
 
 		// MeshInstance3D lineMeshInstance = new();
 		// lineMeshInstance.Mesh = lineMesh;
