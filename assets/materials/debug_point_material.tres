@@ -1,4 +1,9 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://deh0n7tjbyf0a"]
 
 [resource]
+no_depth_test = true
+shading_mode = 0
 vertex_color_use_as_albedo = true
+billboard_keep_scale = true
+use_point_size = true
+point_size = 3.0

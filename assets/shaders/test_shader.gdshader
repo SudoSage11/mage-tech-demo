@@ -38,6 +38,6 @@ void vertex() {
 
 void fragment() {
 	METALLIC = 0.0;
-  ROUGHNESS = 0.2;
+	ROUGHNESS = 0.2;
 	ALBEDO = vec3(0.1, 0.3, 0.5);
 }

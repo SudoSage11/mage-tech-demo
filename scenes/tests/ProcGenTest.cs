@@ -3,114 +3,79 @@ using MageTechDemo.scripts;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 public partial class ProcGenTest : Node3D {
-	private PackedScene pkdMarker = ResourceLoader.Load<PackedScene>("res://scenes/tests/marker.tscn");
-	private NoiseTexture3D noiseTex = ResourceLoader.Load<NoiseTexture3D>("res://assets/textures/noise_3d.tres");
-	private Material lineMaterial = ResourceLoader.Load<Material>("res://assets/materials/line_material.tres");
-	private Material meshMaterial = ResourceLoader.Load<Material>("res://assets/materials/mesh_material.tres");
+	private PackedScene pkdMarker = ResourceLoader.Load<PackedScene>("res://scenes/tests/control_point.tscn");
 	private ShaderMaterial meshShaderMaterial = ResourceLoader.Load<ShaderMaterial>("res://assets/materials/mesh_shader_material.tres");
+	private Material debugPointMaterial = ResourceLoader.Load<Material>("res://assets/materials/debug_point_material.tres");
+	private Material debugLineMaterial = ResourceLoader.Load<Material>("res://assets/materials/debug_line_material.tres");
+	private Material defaultMaterial = ResourceLoader.Load<Material>("res://assets/materials/default_material.tres");
 
-	private float frequency = 0.5f;
 	/// <summary>
-	/// How quickly the noise varies over space.
+	/// How far apart each mesh point is from each other in meters.
 	/// </summary>
-	[Export]
-	float Frequency {
-		get => frequency;
+	[Export(PropertyHint.Range, "0.05,1,0.05")]
+	float MeshPointSpacing {
+		get => meshPointSpacing;
 		set {
-			frequency = value;
-			if (readyComplete) {
-				RebuildMarkers();
-			}
+			meshPointSpacing = value;
 		}
 	}
+	private float meshPointSpacing = 0.2f;
 
-	private float amplitude = 2f;
 	/// <summary>
-	/// The strength of the noise.
+	/// The radius away from each control point that mesh points will be generated in meters.
 	/// </summary>
-	[Export]
-	float Amplitude {
-		get => amplitude;
+	[Export(PropertyHint.Range, "0,2,0.05")]
+	float MeshGenerationRadius {
+		get => meshGenerationRadius;
 		set {
-			amplitude = value;
-			if (readyComplete) {
-				RebuildMarkers();
-			}
+			meshGenerationRadius = value;
 		}
 	}
+	private float meshGenerationRadius = 0.5f;
 
-	private float gridSpacing = 1f;
 	/// <summary>
-	/// How far apart each point on the test grid is from each other.
+	/// The radius away from each control point that mesh points will be generated in meters.
 	/// </summary>
-	[Export(PropertyHint.Range, "0,2,0.2")]
-	float GridSpacing {
-		get => gridSpacing;
-		set {
-			gridSpacing = value;
-			if (readyComplete) {
-				RebuildMarkers();
-			}
-		}
-	}
-
-	private float drawPoint = 3f;
-	/// <summary>
-	/// How far apart each point on the test grid is from each other.
-	/// </summary>
-	[Export(PropertyHint.Range, "0,20,1")]
+	[Export(PropertyHint.Range, "0,2,0.05")]
 	float DrawPoint {
-		get => gridSpacing;
+		get => drawPoint;
 		set {
-			gridSpacing = value;
-			DrawImmediateMesh();
+			drawPoint = value;
 		}
 	}
+	private float drawPoint = 0.5f;
 
-	private float gridSize = 10f;
-	/// <summary>
-	/// How many points to draw on each axis of the test grid.
-	/// </summary>
-	[Export(PropertyHint.Range, "0,20,1")]
-	float GridSize {
-		get => gridSize;
-		set {
-			gridSize = value;
-			if (readyComplete) {
-				RebuildMarkers();
-			}
-		}
-	}
-
-	private Vector3 GridOffset { get => new((GridSize - 1) / 2f, (GridSize - 1) / 2f, (GridSize - 1) / 2f); }
-
-	private Node3D markerGroup;
+	private Node3D controlPoints;
 	private Label fpsLabel;
-	private MeshInstance3D arrayMeshInstance;
-	private MeshInstance3D immediateMeshInstance;
-
-
-	bool readyComplete = false;
+	private CheckBox checkDrawMeshPoints;
+	private CheckBox checkDrawMesh;
+	private CheckBox checkDrawNormals;
+	private MeshInstance3D meshInstance;
+	private MeshInstance3D pointMeshInstance;
+	private MeshInstance3D normalMeshInstance;
 
 	double timeSinceLastUpdate = 0f;
 
-	Dictionary<int, Marker> markers = [];
-
-	ImmediateMesh triMesh = new();
-	ImmediateMesh lineMesh = new();
+	/// <summary>
+	/// Control points, and their location hashcodes for quick lookup.
+	/// </summary>
+	Dictionary<int, MeshPoint> meshPoints = [];
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		markerGroup = GetNode<Node3D>("Markers");
+		controlPoints = GetNode<Node3D>("ControlPoints");
 		fpsLabel = GetNode<Label>("Control/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/FpsValue");
-		immediateMeshInstance = GetNode<MeshInstance3D>("ImmediateMeshInstance");
-		arrayMeshInstance = GetNode<MeshInstance3D>("ArrayMeshInstance");
+		checkDrawMesh = GetNode<CheckBox>("Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMesh");
+		checkDrawMeshPoints = GetNode<CheckBox>("Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMeshPoints");
+		checkDrawNormals = GetNode<CheckBox>("Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawNormals");
+		meshInstance = GetNode<MeshInstance3D>("MeshInstance");
+		pointMeshInstance = GetNode<MeshInstance3D>("PointMeshInstance");
+		normalMeshInstance = GetNode<MeshInstance3D>("NormalMeshInstance");
 
-		readyComplete = true;
-
-		RebuildMarkers();
+		BuildMeshPoints();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -120,83 +85,132 @@ public partial class ProcGenTest : Node3D {
 		}
 
 		if (timeSinceLastUpdate >= 0.1) {
-			//DrawImmediateMesh();
+			BuildMeshPoints();
 			timeSinceLastUpdate = 0f;
 		}
 
 		timeSinceLastUpdate += delta;
 	}
 
-	// Rebuilds the marker sprites and provides weight values based on the frequency and amplitude
-	private void RebuildMarkers() {
-		markers.Clear();
-
-		// Clear children from the marker group
-		if (markerGroup.GetChildCount() > 0) {
-			foreach (var child in markerGroup.GetChildren()) {
-				markerGroup.RemoveChild(child);
-				child.QueueFree();
-			}
+	public static float RoundToNearestGivenFloat(float value, float nearestFloat) {
+		if (nearestFloat == 0) {
+			// Handle division by zero or a desired behavior for rounding to zero
+			return 0;
 		}
 
-		Noise noise = noiseTex.Noise;
+		// Scale the value by dividing by the target float
+		float scaledValue = value / nearestFloat;
 
-		// Set up grid
-		for (float x = 0f; x < (GridSize * GridSpacing); x += GridSpacing) {
-			for (float z = 0f; z < (GridSize * GridSpacing); z += GridSpacing) {
-				for (float y = 0f; y < (GridSize * GridSpacing); y += GridSpacing) {
-					Marker marker = pkdMarker.Instantiate<Marker>();
-					Vector3 newPos = new Vector3(x, y, z) - GridOffset;
-					marker.Position = newPos;
+		// Round the scaled value to the nearest whole number
+		float roundedScaledValue = MathF.Round(scaledValue, MidpointRounding.AwayFromZero);
 
-					// Calculate weight distrobution
-					//float weight = -marker.Position.Y;
-					//weight += noise.GetNoise3Dv(marker.Position * frequency) * amplitude;
+		// Scale the rounded value back by multiplying by the target float
+		float result = roundedScaledValue * nearestFloat;
 
-					float weight = 5 - (Vector3.Zero.DistanceTo(newPos) * 0.5f);
+		return result;
+	}
 
-					marker.Weight = weight;
+	// Rebuilds the marker sprites and provides weight values based on the frequency and amplitude
+	private void BuildMeshPoints() {
+		meshPoints.Clear();
 
-					//markerGroup.AddChild(marker);
-					//marker.Owner = GetTree().EditedSceneRoot;
+		if (controlPoints == null) return;
 
-					markers.Add(GetVectorHash(newPos), marker);
+		// Loop through each control point and create mesh points around it.
+		foreach (ControlPoint control in controlPoints.GetChildren().Cast<ControlPoint>()) {
+			Vector3 controlPos = control.Position;
+
+			float offset = meshGenerationRadius + (meshPointSpacing * 2);
+
+			// Iterate through a grid around each control point
+			for (float x = controlPos.X - offset; x < controlPos.X + offset; x += meshPointSpacing) {
+				for (float y = controlPos.Y - offset; y < controlPos.Y + offset; y += meshPointSpacing) {
+					for (float z = controlPos.Z - offset; z < controlPos.Z + offset; z += meshPointSpacing) {
+						Vector3 meshPointPos = new(
+							RoundToNearestGivenFloat(x, meshPointSpacing),
+							RoundToNearestGivenFloat(y, meshPointSpacing),
+							RoundToNearestGivenFloat(z, meshPointSpacing)
+						);
+						int posHash = VectorUtils.GetVectorHash(meshPointPos);
+
+						float distanceToControl = meshPointPos.DistanceTo(controlPos);
+
+						// Check if the point is within the radius to ignore points outside the radius.
+						if (distanceToControl < meshGenerationRadius + (meshPointSpacing * 2)) {
+							float weight = 1f - (distanceToControl / meshGenerationRadius);
+							MeshPoint point = new(meshPointPos, weight);
+
+							// If already in the list but the saved weight is lower, update the weight
+							if (meshPoints.TryGetValue(posHash, out MeshPoint value)) {
+								if (value.Weight < weight) {
+									meshPoints[posHash].Weight = weight;
+								}
+							} else {
+								meshPoints.Add(posHash, point);
+							}
+						}
+					}
 				}
 			}
 		}
 
-		DrawImmediateMesh();
+		DrawMeshPoints();
+		DrawMesh();
 	}
 
-	private void DrawImmediateMesh() {
-		triMesh.ClearSurfaces();
-		lineMesh.ClearSurfaces();
+	private void DrawMeshPoints() {
+		ImmediateMesh debugMesh = pointMeshInstance.Mesh as ImmediateMesh;
+		debugMesh.ClearSurfaces();
 
-		GD.Print($"Drawing mesh for {markers.Count} points");
+		// If not checked, just clear the mesh
+		if (!checkDrawMeshPoints.ButtonPressed) return;
 
-		triMesh.SurfaceBegin(Mesh.PrimitiveType.Triangles);
-		lineMesh.SurfaceBegin(Mesh.PrimitiveType.Lines);
+		debugMesh.SurfaceBegin(Mesh.PrimitiveType.Points);
+
+		foreach (MeshPoint point in meshPoints.Values) {
+			debugMesh.SurfaceSetColor(point.GetColor(drawPoint));
+			debugMesh.SurfaceAddVertex(point.Position);
+		}
+
+		debugMesh.SurfaceEnd();
+	}
+
+	private void DrawMesh() {
+		ImmediateMesh mesh = meshInstance.Mesh as ImmediateMesh;
+		mesh.ClearSurfaces();
+
+		ImmediateMesh normalMesh = normalMeshInstance.Mesh as ImmediateMesh;
+		normalMesh.ClearSurfaces();
+
+		// If not checked, just clear the mesh. If there aren't any points nothing is going to get drawn
+		if (!checkDrawMesh.ButtonPressed || meshPoints.Count == 0) return;
+
+		if (checkDrawNormals.ButtonPressed) {
+			normalMesh.SurfaceBegin(Mesh.PrimitiveType.Lines);
+		}
+
+		mesh.SurfaceBegin(Mesh.PrimitiveType.Triangles);
 
 		// Render mesh from points
-		foreach (Marker marker in markers.Values) {
-			Vector3 cubeOrigin = marker.Position;
+		foreach (MeshPoint point in meshPoints.Values) {
+			Vector3 cubeOrigin = point.Position;
 
 			List<Vector3> cubeCorners = [];
 			List<float> cubeWeights = [];
 
 			for (int v = 0; v < 8; v++) {
-				Vector3 offsetPos = cubeOrigin + GenerationTable.originOffsets[v];
+				Vector3 offsetPos = cubeOrigin + (GenerationTable.originOffsets[v] * meshPointSpacing);
 
 				cubeCorners.Add(offsetPos);
 
-				if (markers.TryGetValue(GetVectorHash(offsetPos), out Marker offsetMarker)) {
+				if (meshPoints.TryGetValue(VectorUtils.GetVectorHash(offsetPos), out MeshPoint offsetMarker)) {
 					cubeWeights.Add(offsetMarker.Weight);
 				} else {
 					cubeWeights.Add(-1f);
 				}
 			}
 
-			Cube cube = new([.. cubeCorners], [.. cubeWeights], 3);
+			Cube cube = new([.. cubeCorners], [.. cubeWeights], drawPoint);
 
 			var triangles = cube.GetTriangles();
 
@@ -210,7 +224,7 @@ public partial class ProcGenTest : Node3D {
 				Vector3 vertB = tri.B;
 				Vector3 vertC = tri.C;
 
-				Vector3 normal = (vertB - vertA) * (vertC - vertA);
+				Vector3 normal = (vertC - vertA).Cross(vertB - vertA);
 				normal = normal.Normalized();
 
 				float avgX = (vertA.X + vertB.X + vertC.X) / 3;
@@ -219,66 +233,42 @@ public partial class ProcGenTest : Node3D {
 
 				Vector3 triAvg = new(avgX, avgY, avgZ);
 
-				triMesh.SurfaceSetNormal(triAvg.Normalized());
-				triMesh.SurfaceAddVertex(tri.A);
 
-				triMesh.SurfaceSetNormal(triAvg.Normalized());
-				triMesh.SurfaceAddVertex(tri.B);
+				mesh.SurfaceSetNormal(normal);
+				mesh.SurfaceAddVertex(tri.A);
 
-				triMesh.SurfaceSetNormal(triAvg.Normalized());
-				triMesh.SurfaceAddVertex(tri.C);
+				mesh.SurfaceSetNormal(normal);
+				mesh.SurfaceAddVertex(tri.B);
 
-				lineMesh.SurfaceSetColor(Colors.LimeGreen);
-				lineMesh.SurfaceAddVertex(triAvg);
+				mesh.SurfaceSetNormal(normal);
+				mesh.SurfaceAddVertex(tri.C);
 
-				lineMesh.SurfaceSetColor(Colors.LimeGreen);
-				lineMesh.SurfaceAddVertex(triAvg + triAvg.Normalized());
+				if (checkDrawNormals.ButtonPressed) {
+					normalMesh.SurfaceSetColor(Colors.LimeGreen);
+					normalMesh.SurfaceAddVertex(triAvg);
+
+					normalMesh.SurfaceSetColor(Colors.LimeGreen);
+					normalMesh.SurfaceAddVertex(triAvg + (normal * 0.2f));
+				}
 			}
 		}
 
-		triMesh.SurfaceEnd();
-		lineMesh.SurfaceEnd();
+		mesh.SurfaceEnd();
 
-		MeshInstance3D meshInstance = new();
-		meshInstance.Mesh = triMesh;
-		meshInstance.MaterialOverride = meshShaderMaterial;
-		AddChild(meshInstance);
-		meshInstance.Owner = GetTree().EditedSceneRoot;
-
-		// MeshInstance3D lineMeshInstance = new();
-		// lineMeshInstance.Mesh = lineMesh;
-		// lineMeshInstance.MaterialOverride = lineMaterial;
-		// AddChild(lineMeshInstance);
+		if (checkDrawNormals.ButtonPressed) {
+			normalMesh.SurfaceEnd();
+		}
 	}
 
 	private void OnSpawnPressed() {
 		GD.Print("Pressed");
 	}
 
-	/// <summary>
-	/// Create a hashed index that can be used to quickly look up a vector.
-	/// </summary>
-	public int GetVectorHash(Vector3 vector) {
-		double x = Math.Round(Convert.ToDouble(vector.X), 3);
-		double y = Math.Round(Convert.ToDouble(vector.Y), 3);
-		double z = Math.Round(Convert.ToDouble(vector.Z), 3);
-
-		var tuple = (x, y, z);
-
-		return tuple.GetHashCode();
+	private void OnCheckDrawMeshToggled(bool active) {
+		DrawMesh();
 	}
-}
 
-public static class NodeExtensions {
-	public static void ClearChildren(this Node node) {
-		foreach (Node child in node.GetChildren()) {
-			// Remove from tree first
-			if (child.IsInsideTree()) {
-				child.GetParent().RemoveChild(child);
-			}
-
-			// Delete and free
-			child.QueueFree();
-		}
+	private void OnCheckDrawMeshPointsToggled(bool active) {
+		DrawMeshPoints();
 	}
 }

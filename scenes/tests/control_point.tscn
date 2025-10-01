@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://8bh7opgb6pv8"]
+
+[ext_resource type="Texture2D" uid="uid://dukyjtaxx7o3j" path="res://assets/textures/circle_texture_2D.tres" id="1_0g6sj"]
+[ext_resource type="Script" uid="uid://bwi2pxxt6008v" path="res://scenes/tests/ControlPoint.cs" id="2_3q8c6"]
+
+[node name="Sprite3D" type="Sprite3D"]
+pixel_size = 0.001
+billboard = 1
+double_sided = false
+no_depth_test = true
+alpha_antialiasing_mode = 2
+alpha_antialiasing_edge = 0.9
+texture = ExtResource("1_0g6sj")
+script = ExtResource("2_3q8c6")

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bjtfpeb4c7yqe"]
 
-[ext_resource type="Shader" uid="uid://oe8nqfh4nup8" path="res://assets/test_shader.gdshader" id="1_j2pcf"]
+[ext_resource type="Shader" uid="uid://oe8nqfh4nup8" path="res://assets/shaders/test_shader.gdshader" id="1_j2pcf"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_j2pcf"]
 frequency = 0.0196

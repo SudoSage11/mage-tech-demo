@@ -60,17 +60,7 @@ namespace MageTechDemo.scripts {
           // weight = 6 / 8
           // weight = 0.75 
           //
-          // weight = (1 - 0) / (8 - 0)
-          // weight = 6 / 8
-          // weight = 0.75 
-          //
           // Therefore the point of the triangle needs to be 50% closer to B than A. 
-
-
-          // 0 -> 1 = 0.5 both ways
-          // A0.5 -> B1.0 = 0.75 = (A + B) / 2
-          // A1.0 -> B0.5 = 0.25 = (A + -B) / 2
-          //GD.Print($"({weights[indexA]} + {weights[indexB]}) / 2");
           float edgeWeight = (drawPoint - weights[indexA]) / (weights[indexB] - weights[indexA]);
           Vector3 vertice = corners[indexA].Lerp(corners[indexB], edgeWeight);
 

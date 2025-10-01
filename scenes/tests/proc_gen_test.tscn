@@ -1,9 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://raebhi1dy0s3"]
+[gd_scene load_steps=15 format=3 uid="uid://raebhi1dy0s3"]
 
 [ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_p2xt4"]
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/editor_theme.res" id="2_itsy3"]
 [ext_resource type="Material" uid="uid://bjtfpeb4c7yqe" path="res://assets/materials/mesh_shader_material.tres" id="2_y7b4y"]
 [ext_resource type="Script" uid="uid://cfu8xc4ot34c7" path="res://scenes/tests/DebugCamera.cs" id="4_itsy3"]
+[ext_resource type="PackedScene" uid="uid://8bh7opgb6pv8" path="res://scenes/tests/control_point.tscn" id="5_mtjl7"]
+[ext_resource type="Material" uid="uid://deh0n7tjbyf0a" path="res://assets/materials/debug_point_material.tres" id="7_gfs0s"]
+[ext_resource type="Material" uid="uid://dfdnxsl57cur8" path="res://assets/materials/debug_line_material.tres" id="8_gfs0s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2xt4"]
 content_margin_left = 8.0
@@ -12,19 +15,27 @@ content_margin_right = 8.0
 content_margin_bottom = 8.0
 bg_color = Color(0.10747974, 0.10747974, 0.10747967, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2xt4"]
-shading_mode = 2
-albedo_color = Color(0.8995496, 0.22065836, 0.44701433, 1)
-
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_p2xt4"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_y7b4y"]
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mtjl7"]
+color = Color(0.5409905, 0.5409905, 0.5409905, 1)
+thickness = 2
 
 [sub_resource type="SphereMesh" id="SphereMesh_34uec"]
 material = ExtResource("2_y7b4y")
 
+[sub_resource type="BoxMesh" id="BoxMesh_6ji1t"]
+material = ExtResource("2_y7b4y")
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_mtjl7"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_g57tg"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_6pmxl"]
+
 [node name="ProcGenTest" type="Node3D"]
 script = ExtResource("1_p2xt4")
+MeshPointSpacing = 0.3
+MeshGenerationRadius = 0.6
+DrawPoint = 0.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -60,32 +71,73 @@ text = "FPS:"
 layout_mode = 2
 text = "10"
 
+[node name="Panel" type="Panel" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxLine_mtjl7")
+
+[node name="CheckDrawMesh" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Draw Mesh"
+
+[node name="CheckDrawMeshPoints" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Mesh Points"
+
+[node name="CheckDrawNormals" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Normals"
+
 [node name="Button" type="Button" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Spawn"
 
-[node name="Markers" type="Node3D" parent="."]
+[node name="ControlPoints" type="Node3D" parent="."]
 
-[node name="ImmediateMeshInstance" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.720871)
-material_override = SubResource("StandardMaterial3D_p2xt4")
-mesh = SubResource("ImmediateMesh_p2xt4")
+[node name="Sprite3D" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3891752, 0, -1.605782)
 
-[node name="ArrayMeshInstance" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.7510433)
-mesh = SubResource("ArrayMesh_y7b4y")
+[node name="Sprite3D2" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7204325, 0, -2.8692164)
+
+[node name="Sprite3D3" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.88914204, 0, 0.64887285)
+
+[node name="Sprite3D4" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20624375, -4.7683716e-07, 0.19724798)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.033312213, -0.6571606, -0.7530142, 0.39689115, -0.70017606, 0.59349054, -0.917261, -0.2790942, 0.28414565, -22.315308, 16.170397, -1.9037075)
+transform = Transform3D(-0.5469829, -0.69966644, -0.4596485, 0.3968912, -0.70017606, 0.5934905, -0.7370801, 0.14219873, 0.6606757, -7.0527983, 3.0190554, 0.95568657)
 light_energy = 2.155
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6379156)
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15099621, 0.29336476, 4.9484305)
 mesh = SubResource("SphereMesh_34uec")
 
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15099621, 0.29336476, 9.099811)
+mesh = SubResource("BoxMesh_6ji1t")
+
 [node name="DebugCamera" type="Camera3D" parent="."]
-transform = Transform3D(-0.40025312, 0.31980777, -0.85879004, 0, 0.9371298, 0.34898093, 0.9164046, 0.13968073, -0.3750891, -13.053107, 5.269638, 2.1729875)
+transform = Transform3D(-0.48480958, 0.31628397, -0.8154288, 0, 0.9323238, 0.36162454, 0.8746198, 0.17531903, -0.4519995, -2.9809606, 1, -0.625435)
 script = ExtResource("4_itsy3")
 controllerSensitivity = 0.03
 
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+material_override = ExtResource("2_y7b4y")
+mesh = SubResource("ImmediateMesh_mtjl7")
+
+[node name="PointMeshInstance" type="MeshInstance3D" parent="."]
+material_override = ExtResource("7_gfs0s")
+cast_shadow = 0
+mesh = SubResource("ImmediateMesh_g57tg")
+
+[node name="NormalMeshInstance" type="MeshInstance3D" parent="."]
+material_override = ExtResource("8_gfs0s")
+cast_shadow = 0
+mesh = SubResource("ImmediateMesh_6pmxl")
+
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMesh" to="." method="OnCheckDrawMeshToggled"]
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMeshPoints" to="." method="OnCheckDrawMeshPointsToggled"]
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawNormals" to="." method="OnCheckDrawMeshPointsToggled"]
 [connection signal="pressed" from="Control/MarginContainer/PanelContainer/VBoxContainer/Button" to="." method="OnSpawnPressed"]
