@@ -75,14 +75,14 @@ text = "10"
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxLine_mtjl7")
 
+[node name="CheckDrawMeshPoints" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Mesh Points"
+
 [node name="CheckDrawMesh" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "Draw Mesh"
-
-[node name="CheckDrawMeshPoints" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Draw Mesh Points"
 
 [node name="CheckDrawNormals" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -101,17 +101,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3891752, 0, -1.605782)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7204325, 0, -2.8692164)
 
 [node name="Sprite3D3" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.88914204, 0, 0.64887285)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6936755, 0, 1.0174828)
 
 [node name="Sprite3D4" parent="ControlPoints" instance=ExtResource("5_mtjl7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20624375, -4.7683716e-07, 0.19724798)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5476259, -4.7683716e-07, 0.52819324)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5469829, -0.69966644, -0.4596485, 0.3968912, -0.70017606, 0.5934905, -0.7370801, 0.14219873, 0.6606757, -7.0527983, 3.0190554, 0.95568657)
 light_energy = 2.155
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15099621, 0.29336476, 4.9484305)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5072415, 0.015704632, 4.970101)
 mesh = SubResource("SphereMesh_34uec")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
@@ -137,7 +137,7 @@ material_override = ExtResource("8_gfs0s")
 cast_shadow = 0
 mesh = SubResource("ImmediateMesh_6pmxl")
 
-[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMesh" to="." method="OnCheckDrawMeshToggled"]
 [connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMeshPoints" to="." method="OnCheckDrawMeshPointsToggled"]
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawMesh" to="." method="OnCheckDrawMeshToggled"]
 [connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawNormals" to="." method="OnCheckDrawMeshPointsToggled"]
 [connection signal="pressed" from="Control/MarginContainer/PanelContainer/VBoxContainer/Button" to="." method="OnSpawnPressed"]

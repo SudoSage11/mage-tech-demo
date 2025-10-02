@@ -233,15 +233,25 @@ public partial class ProcGenTest : Node3D {
 
 				Vector3 triAvg = new(avgX, avgY, avgZ);
 
+				// Smooth normals from the scalar field gradient
+				Vector3 smoothA = ComputeSmoothNormal(vertA, meshPointSpacing);
+				Vector3 smoothB = ComputeSmoothNormal(vertB, meshPointSpacing);
+				Vector3 smoothC = ComputeSmoothNormal(vertC, meshPointSpacing);
 
-				mesh.SurfaceSetNormal(normal);
-				mesh.SurfaceAddVertex(tri.A);
+				// Because a single vertex can only have one normal, we use the real normal property for the flat normal (lighting)
+				// and encode the smooth normal (vertex displacement) in the UV2 property. Hacky, but it works.
 
+				mesh.SurfaceSetUV2(VectorUtils.EncodeOctahedron(smoothA));
 				mesh.SurfaceSetNormal(normal);
-				mesh.SurfaceAddVertex(tri.B);
+				mesh.SurfaceAddVertex(vertA);
 
+				mesh.SurfaceSetUV2(VectorUtils.EncodeOctahedron(smoothB));
 				mesh.SurfaceSetNormal(normal);
-				mesh.SurfaceAddVertex(tri.C);
+				mesh.SurfaceAddVertex(vertB);
+
+				mesh.SurfaceSetUV2(VectorUtils.EncodeOctahedron(smoothC));
+				mesh.SurfaceSetNormal(normal);
+				mesh.SurfaceAddVertex(vertC);
 
 				if (checkDrawNormals.ButtonPressed) {
 					normalMesh.SurfaceSetColor(Colors.LimeGreen);
@@ -270,5 +280,69 @@ public partial class ProcGenTest : Node3D {
 
 	private void OnCheckDrawMeshPointsToggled(bool active) {
 		DrawMeshPoints();
+	}
+
+	float GetNodeWeight(Vector3 nodePos) {
+		return meshPoints.TryGetValue(VectorUtils.GetVectorHash(nodePos), out var mp)
+				? mp.Weight
+				: -1f; // background
+	}
+
+	// Sample the scalar field (metaball / density function) at any position.
+	// This version interpolates the meshPoints dictionary by trilinear interpolation.
+	float SampleScalarField(Vector3 position, float spacing) {
+		// Snap to the nearest cell corner
+		Vector3 cellOrigin = new(
+				Mathf.Floor(position.X / spacing) * spacing,
+				Mathf.Floor(position.Y / spacing) * spacing,
+				Mathf.Floor(position.Z / spacing) * spacing
+		);
+
+		// Local coordinates in the cell [0..1]
+		Vector3 localFraction = (position - cellOrigin) / spacing;
+
+		// Fetch corner weights
+		float w000 = GetNodeWeight(cellOrigin + new Vector3(0, 0, 0));
+		float w100 = GetNodeWeight(cellOrigin + new Vector3(spacing, 0, 0));
+		float w010 = GetNodeWeight(cellOrigin + new Vector3(0, spacing, 0));
+		float w110 = GetNodeWeight(cellOrigin + new Vector3(spacing, spacing, 0));
+		float w001 = GetNodeWeight(cellOrigin + new Vector3(0, 0, spacing));
+		float w101 = GetNodeWeight(cellOrigin + new Vector3(spacing, 0, spacing));
+		float w011 = GetNodeWeight(cellOrigin + new Vector3(0, spacing, spacing));
+		float w111 = GetNodeWeight(cellOrigin + new Vector3(spacing, spacing, spacing));
+
+		// Trilinear interpolation
+		float w00 = Mathf.Lerp(w000, w100, localFraction.X);
+		float w10 = Mathf.Lerp(w010, w110, localFraction.X);
+		float w01 = Mathf.Lerp(w001, w101, localFraction.X);
+		float w11 = Mathf.Lerp(w011, w111, localFraction.X);
+
+		float w0 = Mathf.Lerp(w00, w10, localFraction.Y);
+		float w1 = Mathf.Lerp(w01, w11, localFraction.Y);
+
+		return Mathf.Lerp(w0, w1, localFraction.Z);
+	}
+
+	// Compute the smooth surface normal at a vertex position by sampling
+	// the scalar field gradient using central differences.
+	Vector3 ComputeSmoothNormal(Vector3 position, float spacing) {
+		float offset = spacing * 0.5f; // step size for finite difference
+
+		float sampleXPlus = SampleScalarField(position + new Vector3(offset, 0, 0), spacing);
+		float sampleXMinus = SampleScalarField(position - new Vector3(offset, 0, 0), spacing);
+
+		float sampleYPlus = SampleScalarField(position + new Vector3(0, offset, 0), spacing);
+		float sampleYMinus = SampleScalarField(position - new Vector3(0, offset, 0), spacing);
+
+		float sampleZPlus = SampleScalarField(position + new Vector3(0, 0, offset), spacing);
+		float sampleZMinus = SampleScalarField(position - new Vector3(0, 0, offset), spacing);
+
+		Vector3 gradient = new(
+				(sampleXPlus - sampleXMinus) / (2f * offset),
+				(sampleYPlus - sampleYMinus) / (2f * offset),
+				(sampleZPlus - sampleZMinus) / (2f * offset)
+		);
+
+		return gradient.Length() > 0f ? gradient.Normalized() : Vector3.Zero;
 	}
 }

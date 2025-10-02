@@ -23,6 +23,16 @@ uniform vec3 sway_direction = vec3(1.0, 0.0, 0.0);
 
 uniform float test_value;
 
+// Decode from [0,1]^2 to unit vector
+vec3 decode_octahedron(vec2 e) {
+	e = e * 2.0 - 1.0;
+	vec3 n = vec3(e.x, e.y, 1.0 - abs(e.x) - abs(e.y));
+	float t = clamp(-n.z, 0.0, 1.0);
+	n.x += (n.x >= 0.0 ? -t : t);
+	n.y += (n.y >= 0.0 ? -t : t);
+	return normalize(n);
+}
+
 void vertex() {
 	// Sway (from https://godotshaders.com/shader/swaying-material/
     float sway_time = (TIME / sway_duration) * 6.28318; // 2π = full sine wave cycle
@@ -30,10 +40,13 @@ void vertex() {
     VERTEX.xyz += sway * sway_direction;
 	
 	// Wiggle
-	vec4 offset = (texture(noise, VERTEX + TIME * time_scale) + amplitude) * (1.0 / amplitude);
-	VERTEX *= offset.xyz;
 	
-	VERTEX += test_value;
+	// Get the smooth normals encoded in the UV2 property
+	vec3 smoothNormal = decode_octahedron(UV2);
+	
+	VERTEX += (smoothNormal * (normalize(texture(noise, VERTEX + TIME * time_scale)).xyz - add) * mult);
+	
+	//VERTEX += test_value;
 }
 
 void fragment() {
@@ -41,3 +54,4 @@ void fragment() {
 	ROUGHNESS = 0.2;
 	ALBEDO = vec3(0.1, 0.3, 0.5);
 }
+

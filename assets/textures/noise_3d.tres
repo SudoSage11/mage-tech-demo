@@ -6,3 +6,4 @@ noise_type = 0
 [resource]
 noise = SubResource("FastNoiseLite_0sxf0")
 seamless = true
+normalize = false

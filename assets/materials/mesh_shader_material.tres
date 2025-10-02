@@ -12,10 +12,10 @@ seamless = true
 [resource]
 render_priority = 0
 shader = ExtResource("1_j2pcf")
-shader_parameter/time_scale = 0.105
-shader_parameter/add = 4.0
-shader_parameter/mult = 0.25
-shader_parameter/amplitude = 4.025
+shader_parameter/time_scale = 0.05
+shader_parameter/add = 0.435
+shader_parameter/mult = 0.5
+shader_parameter/amplitude = 0.0
 shader_parameter/noise = SubResource("NoiseTexture3D_j2pcf")
 shader_parameter/sway_amount = 0.1
 shader_parameter/sway_scale = 1.0
