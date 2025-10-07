@@ -5,4 +5,7 @@
         "*.gdshader": "$(capture).gdshader.uid",
         "*.shader": "$(capture).shader.uid",
     },
+    "files.exclude": {
+        "**/*.uid": true
+    }
 }

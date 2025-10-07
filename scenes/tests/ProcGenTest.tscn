@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://raebhi1dy0s3"]
+
+[ext_resource type="Script" uid="uid://dcv01hg30ufgc" path="res://scenes/tests/ProcGenTest.cs" id="1_u8ij3"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/editor_theme.res" id="2_hba8k"]
+[ext_resource type="Script" uid="uid://cfu8xc4ot34c7" path="res://scenes/tests/DebugCamera.cs" id="3_saxil"]
+[ext_resource type="PackedScene" uid="uid://ptandqvujarh" path="res://scenes/magic/ElementManager.tscn" id="4_hba8k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2xt4"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.10747974, 0.10747974, 0.10747967, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mtjl7"]
+color = Color(0.5409905, 0.5409905, 0.5409905, 1)
+thickness = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ji1t"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6ji1t"]
+material = SubResource("StandardMaterial3D_6ji1t")
+size = Vector2(5, 5)
+
+[node name="ProcGenTest" type="Node3D"]
+script = ExtResource("1_u8ij3")
+MeshPointSpacing = 0.3
+MeshGenerationRadius = 0.6
+DrawPoint = 0.0
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("2_hba8k")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+offset_right = 96.0
+offset_bottom = 55.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p2xt4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FpsTitle" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS:"
+
+[node name="FpsValue" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "10"
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxLine_mtjl7")
+
+[node name="CheckDrawGeneratedMeshes" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Draw Mesh"
+
+[node name="CheckDrawDebugPoints" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Mesh Points"
+
+[node name="CheckDrawDebugLines" type="CheckBox" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw Normals"
+
+[node name="Button" type="Button" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spawn"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.96849084, -0.24014507, -0.06599902, 7.0706e-05, -0.26526898, 0.96417445, -0.24904925, 0.93378943, 0.25692758, -2.3427544, 2.6269717, 4.9549694)
+shadow_enabled = true
+
+[node name="DebugCamera" type="Camera3D" parent="."]
+transform = Transform3D(-0.48480958, 0.31628397, -0.8154288, 0, 0.9323238, 0.36162454, 0.8746198, 0.17531903, -0.4519995, -2.9809606, 1, -0.625435)
+script = ExtResource("3_saxil")
+controllerSensitivity = 0.03
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2109361, 0)
+mesh = SubResource("PlaneMesh_6ji1t")
+
+[node name="ElementManager" parent="." instance=ExtResource("4_hba8k")]
+
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawGeneratedMeshes" to="." method="OnCheckDrawGeneratedMeshesToggled"]
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawDebugPoints" to="." method="OnCheckDrawDebugPointsToggled"]
+[connection signal="toggled" from="Control/MarginContainer/PanelContainer/VBoxContainer/CheckDrawDebugLines" to="." method="OnCheckDrawDebugLinesToggled"]
+[connection signal="pressed" from="Control/MarginContainer/PanelContainer/VBoxContainer/Button" to="." method="OnSpawnPressed"]

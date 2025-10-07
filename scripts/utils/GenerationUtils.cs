@@ -1,11 +1,15 @@
+#nullable disable
+
 using System.Collections.Generic;
 using Godot;
 
-namespace MageTechDemo.scripts {
+namespace MageTechDemo.scripts
+{
   /// <summary>
   /// Represents a triangle in 3D space between 3 points.
   /// </summary>
-  public struct Triangle(Vector3 x, Vector3 y, Vector3 z) {
+  public struct Triangle(Vector3 x, Vector3 y, Vector3 z)
+  {
     public Vector3 A { get; private set; } = x;
     public Vector3 B { get; private set; } = y;
     public Vector3 C { get; private set; } = z;
@@ -17,22 +21,23 @@ namespace MageTechDemo.scripts {
   /// <param name="corners">The 8 corners of the cube as points in 3D space.</param>
   /// <param name="weights">The weight values of each corner to be compared against surfaceLevel.</param>
   /// <param name="drawPoint">When compared with a corner's weight, determines whether or not a given point is above the required threshold to be drawn.</param>
-  public struct Cube(Vector3[] corners, float[] weights, float drawPoint) {
+  public struct Cube(Vector3[] corners, float[] weights, float drawPoint)
+  {
 
     /// <summary>
     /// Gets a list of triangles that need to be drawn within the points of the cube
     /// </summary>
-    public readonly List<Triangle> GetTriangles() {
+    public readonly List<Triangle> GetTriangles()
+    {
       // Calculates the index of the current cube configuration and provides a value between 0 and 255
       int cubeLookupIndex = 0;
-      for (int i = 0; i < 8; i++) {
-        if (weights[i] <= drawPoint) {
+      for (int i = 0; i < 8; i++)
+      {
+        if (weights[i] <= drawPoint)
+        {
           cubeLookupIndex |= 1 << i;
         }
       }
-
-      // GD.Print($"Corners: {corners.Join()}");
-      // GD.Print($"Weights: {weights.Join()}");
 
       List<Triangle> triangles = [];
 
@@ -40,11 +45,13 @@ namespace MageTechDemo.scripts {
       int[] edgeSets = GenerationTable.triangulation[cubeLookupIndex];
 
       // Iterates through the sets of 3 edges and create the interpolated triangle points.
-      for (int edgeSet = 0; edgeSet < edgeSets.Length; edgeSet += 3) {
+      for (int edgeSet = 0; edgeSet < edgeSets.Length; edgeSet += 3)
+      {
         List<Vector3> vertices = [];
 
         // Create a triangle from the edges
-        for (int edge = 0; edge < 3; edge++) {
+        for (int edge = 0; edge < 3; edge++)
+        {
           // Determine which corners need to be checked for each edge.
           int indexA = GenerationTable.cornerIndexFromEdge[edgeSets[edgeSet + edge]][0];
           int indexB = GenerationTable.cornerIndexFromEdge[edgeSets[edgeSet + edge]][1];
@@ -75,7 +82,8 @@ namespace MageTechDemo.scripts {
   }
 
   [Tool]
-  public static class GenerationTable {
+  public static class GenerationTable
+  {
     /// <summary>
     /// The offset to the 8 points of a cube from any given origin point. Required to generate a cube mesh
     /// </summary>

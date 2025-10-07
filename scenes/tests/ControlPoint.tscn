@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://8bh7opgb6pv8"]
+
+[sub_resource type="Gradient" id="Gradient_lf7fp"]
+offsets = PackedFloat32Array(0.7, 0.7)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ebujb"]
+gradient = SubResource("Gradient_lf7fp")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="ControlPoint" type="Sprite3D"]
+pixel_size = 0.001
+billboard = 1
+double_sided = false
+no_depth_test = true
+alpha_antialiasing_mode = 2
+alpha_antialiasing_edge = 0.9
+texture = SubResource("GradientTexture2D_ebujb")

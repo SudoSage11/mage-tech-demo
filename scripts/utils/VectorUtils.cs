@@ -1,11 +1,15 @@
+#nullable disable
+
 using System;
 using Godot;
 
-public class VectorUtils {
+public class VectorUtils
+{
   /// <summary>
 	/// Create a hashed index that can be used to quickly look up a vector.
 	/// </summary>
-  public static int GetVectorHash(Vector3 vector) {
+  public static int GetVectorHash(Vector3 vector)
+  {
     double x = Math.Round(Convert.ToDouble(vector.X), 3);
     double y = Math.Round(Convert.ToDouble(vector.Y), 3);
     double z = Math.Round(Convert.ToDouble(vector.Z), 3);
@@ -22,7 +26,8 @@ public class VectorUtils {
   /// 
   /// TODO: Learn exactly how this works
   /// </summary>
-  public static Vector2 EncodeOctahedron(Vector3 vec3) {
+  public static Vector2 EncodeOctahedron(Vector3 vec3)
+  {
     // Ensure normalized input
     vec3 = vec3.Normalized();
 
@@ -32,7 +37,8 @@ public class VectorUtils {
     Vector2 vec2 = new(vec3.X, vec3.Y);
 
     // Fold lower hemisphere
-    if (vec3.Z < 0.0f) {
+    if (vec3.Z < 0.0f)
+    {
       vec2 = new Vector2(
           (1.0f - Mathf.Abs(vec2.Y)) * Mathf.Sign(vec2.X),
           (1.0f - Mathf.Abs(vec2.X)) * Mathf.Sign(vec2.Y)

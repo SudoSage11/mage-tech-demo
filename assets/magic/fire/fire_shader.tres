@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxmimu3638i3k"]
+
+[ext_resource type="Shader" uid="uid://bq1omfv0yh0tq" path="res://assets/magic/fire/fire_shader_material.gdshader" id="1_7tpmn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7tpmn")

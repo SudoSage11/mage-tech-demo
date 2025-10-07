@@ -1,11 +1,11 @@
 [gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://dukyjtaxx7o3j"]
 
-[sub_resource type="Gradient" id="Gradient_hy4ui"]
+[sub_resource type="Gradient" id="Gradient_lf7fp"]
 offsets = PackedFloat32Array(0.7, 0.7)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [resource]
-gradient = SubResource("Gradient_hy4ui")
+gradient = SubResource("Gradient_lf7fp")
 width = 256
 height = 256
 fill = 1

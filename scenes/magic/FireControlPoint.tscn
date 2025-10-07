@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccwyafbc468jv"]
+
+[ext_resource type="PackedScene" uid="uid://8bh7opgb6pv8" path="res://scenes/tests/ControlPoint.tscn" id="1_2j1o7"]
+[ext_resource type="Script" uid="uid://d2v7wbnaadl0d" path="res://scenes/magic/FireControlPoint.cs" id="2_4xkqn"]
+
+[sub_resource type="Gradient" id="Gradient_2j1o7"]
+offsets = PackedFloat32Array(0.7, 0.7)
+colors = PackedColorArray(0.8658173, 0, 0.16180241, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4xkqn"]
+gradient = SubResource("Gradient_2j1o7")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="FireControlPoint" instance=ExtResource("1_2j1o7")]
+texture = SubResource("GradientTexture2D_4xkqn")
+script = ExtResource("2_4xkqn")
