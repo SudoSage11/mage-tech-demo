@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://8bh7opgb6pv8"]
+[gd_scene load_steps=4 format=3 uid="uid://8bh7opgb6pv8"]
 
 [sub_resource type="Gradient" id="Gradient_lf7fp"]
 offsets = PackedFloat32Array(0.7, 0.7)
@@ -11,6 +11,9 @@ height = 256
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_soye0"]
+radius = 0.24132259
+
 [node name="ControlPoint" type="Sprite3D"]
 pixel_size = 0.001
 billboard = 1
@@ -19,3 +22,8 @@ no_depth_test = true
 alpha_antialiasing_mode = 2
 alpha_antialiasing_edge = 0.9
 texture = SubResource("GradientTexture2D_ebujb")
+
+[node name="MoveInteractionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MoveInteractionArea"]
+shape = SubResource("SphereShape3D_soye0")

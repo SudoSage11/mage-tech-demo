@@ -8,10 +8,12 @@ public partial class FireControlPoint : ControlPoint
 {
 	public override void _Ready()
 	{
+		base._Ready();
 	}
 
 	public override void _Process(double delta)
 	{
+		base._Process(delta);
 	}
 
 	public override float CalculateMeshPointWeight(Vector3 meshPointPos)
