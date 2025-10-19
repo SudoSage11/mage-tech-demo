@@ -24,9 +24,6 @@ size = Vector2(5, 5)
 
 [node name="ProcGenTest" type="Node3D"]
 script = ExtResource("1_u8ij3")
-MeshPointSpacing = 0.3
-MeshGenerationRadius = 0.6
-DrawPoint = 0.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

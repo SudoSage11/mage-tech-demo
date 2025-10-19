@@ -15,6 +15,8 @@ namespace Config
     public bool DrawGeneratedMeshes { get; set; } = true;
     public bool DrawDebugPoints { get; set; } = false;
     public bool DrawDebugLines { get; set; } = false;
+    public bool DrawControlPoints { get; set; } = true;
+    public bool DrawDirectionArrows { get; set; } = true;
   }
 
   public static class ConfigManager

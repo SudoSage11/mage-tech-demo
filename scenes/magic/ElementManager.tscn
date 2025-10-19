@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://7jafnqgarqjg" path="res://scenes/magic/ElementManager.cs" id="1_vqgh4"]
 [ext_resource type="Material" uid="uid://dfdnxsl57cur8" path="res://assets/materials/debug_line_material.tres" id="2_4q7t4"]
-[ext_resource type="Material" uid="uid://cxmimu3638i3k" path="res://assets/magic/fire/fire_shader.tres" id="2_g3g45"]
+[ext_resource type="Material" uid="uid://cxmimu3638i3k" path="res://assets/magic/fire/fire_shader_material.tres" id="2_g3g45"]
 [ext_resource type="PackedScene" uid="uid://ccwyafbc468jv" path="res://scenes/magic/FireControlPoint.tscn" id="2_vbsl4"]
 [ext_resource type="Material" uid="uid://deh0n7tjbyf0a" path="res://assets/materials/debug_point_material.tres" id="3_g3g45"]
 
@@ -23,6 +23,30 @@ DrawPoint = 0.0
 
 [node name="FireControlPoint2" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5504646, 0, 0)
+
+[node name="FireControlPoint3" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint4" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint5" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint6" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint7" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint8" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint9" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
+
+[node name="FireControlPoint10" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
 
 [node name="FireMeshInstance" type="MeshInstance3D" parent="."]
 material_override = ExtResource("2_g3g45")
