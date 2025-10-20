@@ -27,27 +27,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5504646, 0, 0)
 [node name="FireControlPoint3" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
 
-[node name="FireControlPoint4" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint5" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint6" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint7" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint8" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint9" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
-[node name="FireControlPoint10" parent="ControlPoints" instance=ExtResource("2_vbsl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14272237, 0, 1.3646874)
-
 [node name="FireMeshInstance" type="MeshInstance3D" parent="."]
 material_override = ExtResource("2_g3g45")
 mesh = SubResource("ImmediateMesh_vqgh4")

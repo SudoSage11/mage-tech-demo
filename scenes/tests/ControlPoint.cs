@@ -4,6 +4,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Tool]
 public abstract partial class ControlPoint : Sprite3D
 {
   private Area3D moveInteractionArea;

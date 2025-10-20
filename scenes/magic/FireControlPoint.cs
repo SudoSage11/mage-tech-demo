@@ -4,6 +4,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Tool]
 public partial class FireControlPoint : ControlPoint
 {
 	public override void _Ready()
