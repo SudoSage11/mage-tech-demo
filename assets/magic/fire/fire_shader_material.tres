@@ -1,3 +1,15 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://cxmimu3638i3k"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxmimu3638i3k"]
+
+[ext_resource type="Shader" uid="uid://bq1omfv0yh0tq" path="res://assets/magic/fire/fire_shader.gdshader" id="1_w8rhd"]
 
 [resource]
+render_priority = 0
+shader = ExtResource("1_w8rhd")
+shader_parameter/max_steps = 100
+shader_parameter/max_dist = 100.0
+shader_parameter/surface_dist = 0.01
+shader_parameter/smooth_amount = 0.3
+shader_parameter/sphere_size = 0.5
+shader_parameter/cut_level = 0.0
+shader_parameter/cut_smoothing = 0.0
+shader_parameter/node_positions = [Vector3(-1.5724536, 1.2521557, 2.2205787), Vector3(0.74682546, 1.3752128, 2.1708338)]
