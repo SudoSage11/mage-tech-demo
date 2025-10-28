@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://do0w1p5dwwg0i"]
+[gd_scene load_steps=7 format=3 uid="uid://do0w1p5dwwg0i"]
 
 [ext_resource type="Script" uid="uid://bwfq6nqut3ehc" path="res://scenes/tests/SdfTest.cs" id="1_w1511"]
 [ext_resource type="PackedScene" uid="uid://ccwyafbc468jv" path="res://scenes/magic/FireControlPoint.tscn" id="2_2u1sy"]
@@ -9,17 +9,48 @@
 flip_faces = true
 size = Vector3(10, 10, 10)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2u1sy"]
+
 [node name="SdfTest" type="Node3D"]
 script = ExtResource("1_w1511")
 
 [node name="ControlPoints" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5651268, -4.7683716e-07, 0.2988975)
 
 [node name="FireControlPoint" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1375804, 1.2521561, 1.9216812)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0032668114, 9.23872e-07, -1.9953432)
 
 [node name="FireControlPoint2" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8183013, 1.3752133, 1.8719363)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0076995, 9.23872e-07, -1.7638712)
+
+[node name="FireControlPoint3" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7668118, 9.23872e-07, -0.99054724)
+
+[node name="FireControlPoint4" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0066986, 9.23872e-07, -0.0040750504)
+
+[node name="FireControlPoint5" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585936, 9.23872e-07, 0.9983388)
+
+[node name="FireControlPoint6" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9981146, 9.23872e-07, 1.7418697)
+
+[node name="FireControlPoint7" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0050807595, 9.23872e-07, 2.0050094)
+
+[node name="FireControlPoint8" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9994107, 9.23872e-07, 1.7534289)
+
+[node name="FireControlPoint9" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7510262, 9.23872e-07, 0.9945133)
+
+[node name="FireControlPoint10" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0157285, 9.23872e-07, 0.015217304)
+
+[node name="FireControlPoint11" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7456374, 9.23872e-07, -0.9995365)
+
+[node name="FireControlPoint13" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.012214, 9.23872e-07, -1.8421676)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = ExtResource("3_2u1sy")
@@ -33,3 +64,6 @@ controllerSensitivity = 0.03
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5529786, 0.7565032, 0.34916702, 0.47930223, -0.05396247, 0.87598956, 0.6815308, 0.65175986, -0.33275357, -14.281549, 8.936594, -11.127107)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_2u1sy")

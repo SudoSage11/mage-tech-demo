@@ -12,7 +12,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_soye0"]
-radius = 0.24132259
+radius = 0.30691463
 
 [node name="ControlPoint" type="Sprite3D"]
 sorting_offset = 100.0

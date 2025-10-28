@@ -79,6 +79,8 @@ void fragment() {
 	float dist = rayMarch(rayOrigin, rayDir);
 	ALPHA = step(dist, max_dist);
 	
-	vec3 normal = getNormal(rayOrigin + rayDir * dist);
+	vec3 finalRayPos = rayOrigin + rayDir * dist;
+	
+	vec3 normal = getNormal(finalRayPos);
 	ALBEDO = normal;
 }

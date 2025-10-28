@@ -1,15 +1,25 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxmimu3638i3k"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cxmimu3638i3k"]
 
 [ext_resource type="Shader" uid="uid://bq1omfv0yh0tq" path="res://assets/magic/fire/fire_shader.gdshader" id="1_w8rhd"]
+
+[sub_resource type="Gradient" id="Gradient_w8rhd"]
+offsets = PackedFloat32Array(0, 0.17123288, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.8000001, 0, 1, 1, 0.33333334, 0, 1, 0.97, 0.097000025, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yndg4"]
+gradient = SubResource("Gradient_w8rhd")
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_w8rhd")
+shader_parameter/node_positions = [Vector3(-0.0032668114, 9.23872e-07, -1.9953432), Vector3(1.0076995, 9.23872e-07, -1.7638712), Vector3(1.7668118, 9.23872e-07, -0.99054724), Vector3(2.0066986, 9.23872e-07, -0.0040750504), Vector3(1.7585936, 9.23872e-07, 0.9983388), Vector3(0.9981146, 9.23872e-07, 1.7418697), Vector3(-0.0050807595, 9.23872e-07, 2.0050094), Vector3(-0.9994107, 9.23872e-07, 1.7534289), Vector3(-1.7510262, 9.23872e-07, 0.9945133), Vector3(-2.0157285, 9.23872e-07, 0.015217304), Vector3(-1.7456374, 9.23872e-07, -0.9995365), Vector3(-1.012214, 9.23872e-07, -1.8421676)]
 shader_parameter/max_steps = 100
 shader_parameter/max_dist = 100.0
 shader_parameter/surface_dist = 0.01
-shader_parameter/smooth_amount = 0.3
-shader_parameter/sphere_size = 0.5
-shader_parameter/cut_level = 0.0
-shader_parameter/cut_smoothing = 0.0
-shader_parameter/node_positions = [Vector3(-1.5724536, 1.2521557, 2.2205787), Vector3(0.74682546, 1.3752128, 2.1708338)]
+shader_parameter/smooth_amount = 0.325
+shader_parameter/sphere_size = 0.475
+shader_parameter/cut_level = 0.115
+shader_parameter/cut_smoothing = 0.05
+shader_parameter/gradient = SubResource("GradientTexture1D_yndg4")
+shader_parameter/color_mult = 1.88
+shader_parameter/color_add = -0.065
