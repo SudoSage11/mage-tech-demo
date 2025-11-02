@@ -23,6 +23,11 @@ window/vsync/vsync_mode=0
 
 project/assembly_name="Mage Tech Demo"
 
+[editor]
+
+movie_writer/ogv/encoding_speed=3
+movie_writer/movie_file="/Users/ben/Movies/Godot/fire_demo.avi"
+
 [input]
 
 move_forward={
