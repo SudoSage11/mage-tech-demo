@@ -55,13 +55,13 @@ float sd_round(float sd_value, float round_radius) {
 	return sd_value - round_radius;
 }
 
-// Returns the circular smoothed minimum of two SDF values.
+// Returns the smoothed minimum of two SDF values (circular geometric).
 //
 // Source: https://iquilezles.org/articles/smin/
 float smooth_union(float a, float b, float k) {
-	k *= 1.0 / (1.0 - sqrt(0.5));
-	float h = max(k - abs(a - b), 0.0) / k;
-	return min(a, b) - k * 0.5 * (1.0 + h - sqrt(1.0 - h * (h - 2.0)));
+	k *= 1.0/(1.0-sqrt(0.5));
+    return max(k,min(a,b)) -
+           length(max(k-vec2(a,b),0.0));
 }
 
 // Distance field using revolution
@@ -99,11 +99,10 @@ float ray_march(vec3 origin, vec3 dir) {
 vec3 get_color(vec3 final_ray_pos) {
 	float dist_from_sphere = 10.0;
 	
-	if (MAX_NODES > 1) {
-		for (int i = 0; i < MAX_NODES; i++) {
-			vec3 node_pos = node_positions[i];
-			dist_from_sphere = min(dist_from_sphere, distance(final_ray_pos, node_pos));
-		}
+	for (int i = 0; i < MAX_NODES; i++) {
+		vec3 node_pos = node_positions[i];
+		if (node_pos == vec3(0)) break;
+		dist_from_sphere = min(dist_from_sphere, distance(final_ray_pos, node_pos));
 	}
 	
 	dist_from_sphere = clamp((dist_from_sphere * color_mult) + color_add, 0.01, 0.99);

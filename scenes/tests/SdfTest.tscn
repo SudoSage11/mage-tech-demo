@@ -20,7 +20,7 @@ script = ExtResource("1_w1511")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0032668114, 9.23872e-07, -1.9953432)
 
 [node name="FireControlPoint2" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0076995, 9.23872e-07, -1.7638712)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1061567, 9.23872e-07, -1.8630929)
 
 [node name="FireControlPoint3" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7668118, 9.23872e-07, -0.99054724)
@@ -51,6 +51,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7456374, 9.23872e-07, -0.9
 
 [node name="FireControlPoint13" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.012214, 9.23872e-07, -1.8421676)
+
+[node name="FireControlPoint14" parent="ControlPoints" instance=ExtResource("2_2u1sy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0019076, 6.854534e-07, -3.0915)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = ExtResource("3_2u1sy")
